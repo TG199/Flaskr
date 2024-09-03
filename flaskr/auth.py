@@ -35,8 +35,7 @@ def  register():
                 error = f'User {username} is already registered.'
             else:
                 return redirect(url_for('auth.login'))
-        flash(error)
-
+        flash(error)      
     return render_template('auth/register.html')
 
 
@@ -63,7 +62,7 @@ def login():
             return redirect(url_for('index'))
         
         flash(error)
-    return render_template('auth.login.html')
+    return render_template('auth/login.html')
 
 @bp.before_app_request
 def load_logged_in_user():

@@ -13,9 +13,9 @@ bp = Blueprint('blog', __name__)
 def index():
     db = get_db()
     posts = db.execute(
-        " SELECT p.id, title, body, created, author_id, username"
-        " FROM post p JOIN user u ON p.author_id = u.id"
-        "ORDER BY created DESC"
+        "SELECT p.id, title, body, created, author_id, username "
+        "FROM post p JOIN user u ON p.author_id = u.id "
+        "ORDER BY created DESC "
         ).fetchall()
     return render_template('blog/index.html', posts=posts)
 
@@ -28,22 +28,22 @@ def create():
         error = None
 
 
-    if not title:
-        error = 'Title is required'
+        if not title:
+            error = 'Title is required'
 
-    if error is not None:
-        flash(error)
-    else:
-        db = get_db()
-        db.execute(
-            'INSERT INTO post (title, body, author_id)'
-            ' VALUES (?, ?, ?)',
-            (title, body, g.user['id'])
-        )
+        if error is not None:
+            flash(error)
+        else:
+            db = get_db()
+            db.execute(
+                'INSERT INTO post (title, body, author_id)'
+                ' VALUES (?, ?, ?)',
+                (title, body, g.user['id'])
+            )
 
-        db.commit()
+            db.commit()
 
-        return render_template(url_for('blog.html'))
+            return redirect(url_for('blog.index'))
     
     return render_template('blog/create.html')
 
